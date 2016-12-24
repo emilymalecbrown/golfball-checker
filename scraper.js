@@ -1,5 +1,4 @@
 const cron = require('node-cron');
-const router = require('express').Router();
 
 // bandwidth API consts
 const Bandwidth = require("node-bandwidth");
@@ -14,13 +13,12 @@ const client = new Bandwidth({
 });
 
 // scraping
-var fs = require('fs');
-var request = require('request');
-var cheerio = require('cheerio');
+const request = require('request');
+const cheerio = require('cheerio');
 
+const task = cron.schedule('*/1 * * * *', () => {
 
-router.get('/', (req, res, next) => {
-  let url = 'http://www.costco.com/Kirkland-Signature-Four-Piece-Urethane-Cover-Golf-Ball,-2-dozen.product.100310467.html';
+  let url = 'http://www.costco.com/Callaway-Hex-Soft-Golf-Ball-4-dozen-.product.100233776.html';
   request(url, function(error, response, html){
 
     var $ = cheerio.load(html);
@@ -38,12 +36,13 @@ router.get('/', (req, res, next) => {
     }
 
   });
-});
+
+}, true);
 
 const sendMessage = () => {
   client.Message.send({
-    from : "++12024684923", // This must be a Catapult number on your account
-    to   : "+12035921392",
+    from : "+13473780691", // This must be a Catapult number on your account
+    to   : "+12024684923",
     text : "Balls are available!!!"
   })
   .then(function(message) {
@@ -54,4 +53,4 @@ const sendMessage = () => {
   });
 };
 
-module.exports = router
+task.start();

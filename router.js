@@ -23,17 +23,19 @@ router.get('/', (req, res, next) => {
   let url = 'http://www.costco.com/Kirkland-Signature-Four-Piece-Urethane-Cover-Golf-Ball,-2-dozen.product.100310467.html';
   request(url, function(error, response, html){
 
-    var $ = cheerio.load('body');
+    var $ = cheerio.load(html);
 
     if(error){
       throw new Error(error);
     }
 
-     // look for #ctas > ul > li (if li has ID qty then send text!)
+    // if there is an out of stock button - don't send text, else alert!
 
-    $('#product-page > #product-details > .row > .col-xs-12 col-sm-12 col-xl-9 > #ctas').forEach(function(i, element) {
-      console.log(element)
-    });
+    if ( $('#product-page #product-details #ctas #add-to-cart input[type="button"]')['0'].attribs.value === 'Out of Stock') {
+      console.log("still out of stock");
+    } else {
+      sendMessage();
+    }
 
   });
 });

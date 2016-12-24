@@ -20,29 +20,26 @@ var cheerio = require('cheerio');
 
 
 router.get('/', (req, res, next) => {
-   url = 'http://www.costco.com/Kirkland-Signature-Four-Piece-Urethane-Cover-Golf-Ball,-2-dozen.product.100310467.html';
+  let url = 'http://www.costco.com/Kirkland-Signature-Four-Piece-Urethane-Cover-Golf-Ball,-2-dozen.product.100310467.html';
+  request(url, function(error, response, html){
 
-    // The structure of our request call
-    // The first parameter is our URL
-    // The callback function takes 3 parameters, an error, response status code and the html
+    var $ = cheerio.load('<div class="form-group" id="ctas">');
+    console.log($("#ctas").children());
 
-    request(url, function(error, response, html){
+    if(error){
+      throw new Error(error);
+    }
 
-        // First we'll check to make sure no errors occurred when making the request
+     // look for #ctas > ul > li (if li has ID qty then send text!)
 
-        if(!error){
-            // Next, we'll utilize the cheerio library on the returned html which will essentially give us jQuery functionality
+    // $('.form-group#ctas').each(function(i, element) {
+    //   $ = cheerio.load(element);
+    //   console.log($)
+    //   var status = $('li');
+    // });
 
-            var $ = cheerio.load(html);
-
-            // Finally, we'll define the variables we're going to capture
-
-            var stockStatus;
-
-            console.log($);
-        }
-    })
-})
+  });
+});
 
 const sendMessage = () => {
   client.Message.send({
@@ -56,6 +53,6 @@ const sendMessage = () => {
   .catch(function(err) {
       console.log(err.message);
   });
-}
+};
 
 module.exports = router

@@ -1,5 +1,3 @@
-const cron = require('node-cron');
-
 // bandwidth API consts
 const Bandwidth = require("node-bandwidth");
 const userId = process.env.USER_ID || require('./api_keys.js').userId;
@@ -16,9 +14,9 @@ const client = new Bandwidth({
 const request = require('request');
 const cheerio = require('cheerio');
 
-const task = cron.schedule('*/1 * * * *', () => {
+const task = () => {
 
-  let url = 'http://www.costco.com/Callaway-Hex-Soft-Golf-Ball-4-dozen-.product.100233776.html';
+  let url = 'http://www.costco.com/Kirkland-Signature-Four-Piece-Urethane-Cover-Golf-Ball,-2-dozen.product.100310467.html';
   request(url, function(error, response, html){
 
     var $ = cheerio.load(html);
@@ -37,13 +35,13 @@ const task = cron.schedule('*/1 * * * *', () => {
 
   });
 
-}, true);
+};
 
 const sendMessage = () => {
   client.Message.send({
     from : "+13473780691", // This must be a Catapult number on your account
-    to   : "+12024684923",
-    text : "Balls are available!!!"
+    to   : "+12035921392",
+    text : "The balls are available! Log on quick and grab yourself some."
   })
   .then(function(message) {
       console.log("Message sent with ID " + message.id);
@@ -53,4 +51,4 @@ const sendMessage = () => {
   });
 };
 
-task.start();
+task();

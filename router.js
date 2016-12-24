@@ -23,8 +23,7 @@ router.get('/', (req, res, next) => {
   let url = 'http://www.costco.com/Kirkland-Signature-Four-Piece-Urethane-Cover-Golf-Ball,-2-dozen.product.100310467.html';
   request(url, function(error, response, html){
 
-    var $ = cheerio.load('<div class="form-group" id="ctas">');
-    console.log($("#ctas").children());
+    var $ = cheerio.load('body');
 
     if(error){
       throw new Error(error);
@@ -32,11 +31,9 @@ router.get('/', (req, res, next) => {
 
      // look for #ctas > ul > li (if li has ID qty then send text!)
 
-    // $('.form-group#ctas').each(function(i, element) {
-    //   $ = cheerio.load(element);
-    //   console.log($)
-    //   var status = $('li');
-    // });
+    $('#product-page > #product-details > .row > .col-xs-12 col-sm-12 col-xl-9 > #ctas').forEach(function(i, element) {
+      console.log(element)
+    });
 
   });
 });

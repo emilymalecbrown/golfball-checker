@@ -33,6 +33,7 @@ const task = () => {
     if ( $('#product-page #product-details #ctas #add-to-cart input[type="button"]')['0'].attribs.value === 'Out of Stock') {
       alreadyAvailable = false;
       console.log("still out of stock");
+      sendMessage()
     } else {
       if (alreadyAvailable === false) {
         sendMessage();
@@ -48,8 +49,8 @@ const sendMessage = () => {
   //send text using bandwidth client
   client.Message.send({
     from : "+13473780691",
-    to   : "+12035921392",
-    text : "The balls are available! Log on quick and grab yourself some."
+    to   : "+2024684923",
+    text : "TESSTING. The balls are available! Log on quick and grab yourself some."
   })
   .then(function(message) {
       console.log("Message sent with ID " + message.id);

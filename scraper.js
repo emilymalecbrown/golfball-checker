@@ -49,7 +49,7 @@ const sendMessage = () => {
   //send text using bandwidth client
   client.Message.send({
     from : "+13473780691",
-    to   : "+2024684923",
+    to   : "+12024684923",
     text : "TESSTING. The balls are available! Log on quick and grab yourself some."
   })
   .then(function(message) {

@@ -3,6 +3,7 @@ const Bandwidth = require("node-bandwidth");
 const userId = process.env.USER_ID || require('./env/development.js').userId;
 const apiToken = process.env.API_TOKEN || require('./env/development.js').apiToken;
 const apiSecret = process.env.API_SECRET || require('./env/development.js').apiSecret;
+const phoneNumber = process.env.PHONE || require('./env/development.js').phoneNumber;
 
 const client = new Bandwidth({
   userId,
@@ -48,7 +49,7 @@ const sendMessage = () => {
   //send text using bandwidth client
   client.Message.send({
     from : "+13473780691",
-    to   : "+12035921392",
+    to   : phoneNumber,
     text : "The balls are available! Log on quick and grab yourself some."
   })
   .then(function(message) {

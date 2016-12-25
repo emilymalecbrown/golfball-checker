@@ -16,6 +16,9 @@ const cheerio = require('cheerio');
 
 const task = () => {
 
+  // toggle so doesn't send message multiple times if continuously available
+  let alreadyAvailable = false;
+
   let url = 'http://www.costco.com/Kirkland-Signature-Four-Piece-Urethane-Cover-Golf-Ball,-2-dozen.product.100310467.html';
   request(url, function(error, response, html){
 
@@ -28,18 +31,23 @@ const task = () => {
     // if there is an out of stock button - don't send text, else alert!
 
     if ( $('#product-page #product-details #ctas #add-to-cart input[type="button"]')['0'].attribs.value === 'Out of Stock') {
+      alreadyAvailable = false;
       console.log("still out of stock");
     } else {
-      sendMessage();
+      if (alreadyAvailable === false) {
+        sendMessage();
+        alreadyAvailable = true;
+      }
     }
 
   });
-
 };
 
 const sendMessage = () => {
+
+  //send text using bandwidth client
   client.Message.send({
-    from : "+13473780691", // This must be a Catapult number on your account
+    from : "+13473780691",
     to   : "+12035921392",
     text : "The balls are available! Log on quick and grab yourself some."
   })
@@ -51,4 +59,5 @@ const sendMessage = () => {
   });
 };
 
+// invocate task when heroku scheduler runs this script
 task();

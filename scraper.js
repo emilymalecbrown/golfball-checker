@@ -1,8 +1,8 @@
 // bandwidth API consts
 const Bandwidth = require("node-bandwidth");
-const userId = process.env.USER_ID || require('./api_keys.js').userId;
-const apiToken = process.env.API_TOKEN || require('./api_keys.js').apiToken;
-const apiSecret = process.env.API_SECRET || require('./api_keys.js').apiSecret;
+const userId = process.env.USER_ID || require('./env/development.js').userId;
+const apiToken = process.env.API_TOKEN || require('./env/development.js').apiToken;
+const apiSecret = process.env.API_SECRET || require('./env/development.js').apiSecret;
 
 const client = new Bandwidth({
   userId,

@@ -32,8 +32,8 @@ const task = () => {
     let productStockStatus = $('#product-page #product-details #ctas #add-to-cart input[type="button"]')['0'];
     // catch for cases where Costco page doesn't load as expected
     // more informative errors!
-    if (productStockStatus === 'undefined') {
-      throw new Error("Didn't get HTML this time");
+    if (!productStockStatus) {
+      console.error("Didn't get HTML this time");
     } else {
 
       // if there is an out of stock button - don't send text, else alert!
